@@ -1,8 +1,8 @@
 extends KinematicBody2D
 
 var velocity = Vector2(0,0)
-const SPEED = 180
-const JUMPFORCE = -900
+const SPEED = 380
+const JUMPFORCE = -1000
 const GRAVITY = 30
 
 func _physics_process(delta):
