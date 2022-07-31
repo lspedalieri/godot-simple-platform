@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=18 format=2]
 
 [ext_resource path="res://world_tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Player.tscn" type="PackedScene" id=2]
@@ -10,6 +10,7 @@
 [ext_resource path="res://assets/fonts/BalsamiqSans-Bold.ttf" type="DynamicFontData" id=8]
 [ext_resource path="res://HUD.gd" type="Script" id=9]
 [ext_resource path="res://enemy.tscn" type="PackedScene" id=10]
+[ext_resource path="res://assets/music/Retro Beat.ogg" type="AudioStream" id=11]
 
 [sub_resource type="RectangleShape2D" id=1]
 extents = Vector2( 192, 32.5 )
@@ -222,7 +223,7 @@ position = Vector2( 624, -1344 )
 [node name="enemies" type="Node2D" parent="."]
 
 [node name="enemy" parent="enemies" instance=ExtResource( 10 )]
-position = Vector2( 464, 128 )
+position = Vector2( 816, 176 )
 detects_cliffs = false
 
 [node name="enemy2" parent="enemies" instance=ExtResource( 10 )]
@@ -230,7 +231,7 @@ position = Vector2( 880, 176 )
 direction = 1
 
 [node name="enemy3" parent="enemies" instance=ExtResource( 10 )]
-position = Vector2( 288, 368 )
+position = Vector2( 960, 176 )
 direction = 1
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
@@ -243,6 +244,10 @@ limit_top = -3000
 limit_bottom = 600
 drag_margin_h_enabled = true
 drag_margin_v_enabled = true
+
+[node name="MusicLevel" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 11 )
+autoplay = true
 
 [connection signal="body_entered" from="Fallzone" to="Player" method="_on_Fallzone_body_entered"]
 [connection signal="coin_collected" from="Coins/Coin" to="HUD" method="_on_Coin_coin_collected"]
