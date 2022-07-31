@@ -37,11 +37,11 @@ func _physics_process(delta):
 	velocity.x = lerp(velocity.x, 0, 0.2)
 	
 	if coins == 9:
-		get_tree().change_scene("res://Level1.tscn")
+		win()
 
 
 func _on_Fallzone_body_entered(body):
-	get_tree().change_scene("res://Level1.tscn")
+	die()
 
 func add_coin():
 	coins += 1
@@ -62,4 +62,10 @@ func ouch(var enemyposx):
 
 
 func _on_Timer_timeout():
-	get_tree().change_scene("res://Level1.tscn")
+	die()
+
+func die():
+	get_tree().change_scene("res://gameover.tscn")
+	
+func win():
+	get_tree().change_scene("res://YouWin.tscn")

@@ -42,7 +42,6 @@ shape = SubResource( 2 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = SubResource( 1 )
 animation = "crawl"
-frame = 1
 playing = true
 
 [node name="floor_checker" type="RayCast2D" parent="."]

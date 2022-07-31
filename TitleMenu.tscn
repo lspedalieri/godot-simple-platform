@@ -1,0 +1,246 @@
+[gd_scene load_steps=16 format=2]
+
+[ext_resource path="res://assets/UI/grey_button04.png" type="Texture" id=1]
+[ext_resource path="res://assets/fonts/KiriFont.ttf" type="DynamicFontData" id=2]
+[ext_resource path="res://assets/fonts/Sniglet-Regular.ttf" type="DynamicFontData" id=3]
+[ext_resource path="res://assets/player/platformChar_idle.png" type="Texture" id=4]
+[ext_resource path="res://assets/enemies/slimeBlue_blue.png" type="Texture" id=5]
+[ext_resource path="res://assets/coin/gold_1.png" type="Texture" id=6]
+[ext_resource path="res://assets/UI/grey_button13.png" type="Texture" id=7]
+[ext_resource path="res://assets/UI/arrow-UP.png" type="Texture" id=8]
+[ext_resource path="res://TitleMenu.gd" type="Script" id=9]
+
+[sub_resource type="DynamicFont" id=1]
+size = 70
+outline_size = 3
+outline_color = Color( 0.913725, 0.8, 0.0509804, 1 )
+font_data = ExtResource( 2 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 0.121569, 0.00784314, 0.113725, 0.380392 )
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+
+[sub_resource type="DynamicFont" id=3]
+size = 32
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=4]
+size = 30
+font_data = ExtResource( 2 )
+
+[sub_resource type="DynamicFont" id=5]
+size = 36
+font_data = ExtResource( 3 )
+
+[sub_resource type="DynamicFont" id=6]
+size = 40
+font_data = ExtResource( 2 )
+
+[node name="TitleMenu" type="Control"]
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource( 9 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+margin_right = 1024.0
+margin_bottom = 600.0
+color = Color( 0.14902, 0, 0.443137, 1 )
+
+[node name="Label" type="Label" parent="."]
+margin_left = 98.0
+margin_top = 91.0
+margin_right = 945.0
+margin_bottom = 279.0
+custom_colors/font_color = Color( 0.14902, 0.462745, 1, 1 )
+custom_colors/font_outline_modulate = Color( 0.913725, 0.8, 0.0509804, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "Platformer Game!"
+
+[node name="Left Panel" type="Panel" parent="."]
+margin_left = 47.0
+margin_top = 352.0
+margin_right = 467.0
+margin_bottom = 567.0
+custom_styles/panel = SubResource( 2 )
+
+[node name="Label" type="Label" parent="Left Panel"]
+margin_left = 3.0
+margin_top = 11.0
+margin_right = 241.0
+margin_bottom = 59.0
+custom_colors/font_color = Color( 0.180392, 0.92549, 0.0509804, 1 )
+custom_fonts/font = SubResource( 3 )
+text = "CONTROLS"
+align = 1
+valign = 1
+
+[node name="spacebar" type="TextureRect" parent="Left Panel"]
+margin_left = 45.0
+margin_top = 63.0
+margin_right = 235.0
+margin_bottom = 108.0
+texture = ExtResource( 1 )
+
+[node name="Space Label" type="Label" parent="Left Panel/spacebar"]
+margin_top = 6.0
+margin_right = 190.0
+margin_bottom = 44.0
+custom_colors/font_color = Color( 0, 0, 0, 1 )
+custom_fonts/font = SubResource( 4 )
+text = "SPACE"
+align = 1
+valign = 1
+
+[node name="= Jump" type="Label" parent="Left Panel/spacebar"]
+margin_left = 204.0
+margin_top = -1.0
+margin_right = 347.0
+margin_bottom = 43.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 5 )
+text = "= JUMP	!"
+align = 1
+valign = 1
+
+[node name="= Jump2" type="Label" parent="Left Panel/spacebar"]
+margin_left = 189.0
+margin_top = 70.0
+margin_right = 332.0
+margin_bottom = 116.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 5 )
+text = "= MOVE!"
+align = 1
+valign = 1
+
+[node name="KeyL" type="TextureRect" parent="Left Panel"]
+margin_left = 45.0
+margin_top = 135.0
+margin_right = 94.0
+margin_bottom = 180.0
+texture = ExtResource( 7 )
+
+[node name="TextureRect" type="TextureRect" parent="Left Panel/KeyL"]
+margin_left = 7.0
+margin_top = 41.0
+margin_right = 43.0
+margin_bottom = 77.0
+rect_rotation = -90.0
+texture = ExtResource( 8 )
+expand = true
+
+[node name="R" type="TextureRect" parent="Left Panel"]
+margin_left = 128.0
+margin_top = 135.0
+margin_right = 177.0
+margin_bottom = 180.0
+texture = ExtResource( 7 )
+
+[node name="TextureRect2" type="TextureRect" parent="Left Panel/R"]
+margin_left = 44.0
+margin_top = 4.0
+margin_right = 80.0
+margin_bottom = 40.0
+rect_rotation = 90.0
+texture = ExtResource( 8 )
+expand = true
+
+[node name="Left Panel2" type="Panel" parent="."]
+margin_left = 570.0
+margin_top = 352.0
+margin_right = 990.0
+margin_bottom = 567.0
+custom_styles/panel = SubResource( 2 )
+
+[node name="Label" type="Label" parent="Left Panel2"]
+margin_left = 3.0
+margin_top = 11.0
+margin_right = 241.0
+margin_bottom = 59.0
+custom_colors/font_color = Color( 0.180392, 0.92549, 0.0509804, 1 )
+custom_fonts/font = SubResource( 3 )
+text = "ITEMS"
+align = 1
+valign = 1
+
+[node name="Playericon" type="TextureRect" parent="Left Panel2"]
+margin_left = -7.0
+margin_top = 25.0
+margin_right = 89.0
+margin_bottom = 121.0
+texture = ExtResource( 4 )
+
+[node name="= you" type="Label" parent="Left Panel2"]
+margin_left = 87.0
+margin_top = 62.0
+margin_right = 193.0
+margin_bottom = 108.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 5 )
+text = "= You!"
+align = 1
+valign = 1
+
+[node name="spacebar2" type="TextureRect" parent="Left Panel2"]
+margin_left = 197.0
+margin_top = 64.0
+margin_right = 263.0
+margin_bottom = 107.0
+texture = ExtResource( 5 )
+
+[node name="= you2" type="Label" parent="Left Panel2"]
+margin_left = 270.0
+margin_top = 62.0
+margin_right = 413.0
+margin_bottom = 108.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 5 )
+text = "= Enemy!"
+align = 1
+valign = 1
+
+[node name="Playericon2" type="TextureRect" parent="Left Panel2"]
+margin_left = 188.0
+margin_top = 114.0
+margin_right = 272.0
+margin_bottom = 200.0
+texture = ExtResource( 6 )
+
+[node name="= you3" type="Label" parent="Left Panel2"]
+margin_left = 27.0
+margin_top = 137.0
+margin_right = 133.0
+margin_bottom = 183.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 5 )
+text = "Collect 3 "
+align = 1
+valign = 1
+
+[node name="= you4" type="Label" parent="Left Panel2"]
+margin_left = 270.0
+margin_top = 131.0
+margin_right = 413.0
+margin_bottom = 177.0
+custom_colors/font_color = Color( 1, 1, 1, 1 )
+custom_fonts/font = SubResource( 5 )
+text = "to win!	"
+align = 1
+valign = 1
+
+[node name="Button" type="Button" parent="."]
+margin_left = 374.0
+margin_top = 218.0
+margin_right = 615.0
+margin_bottom = 301.0
+custom_colors/font_color = Color( 0.0117647, 1, 0.027451, 1 )
+custom_colors/font_color_hover = Color( 0.192157, 0.0627451, 0.807843, 1 )
+custom_colors/font_color_pressed = Color( 0.854902, 0.384314, 0.0705882, 1 )
+custom_fonts/font = SubResource( 6 )
+text = "PLAY!"
+flat = true
+
+[connection signal="pressed" from="Button" to="." method="_on_Button_pressed"]

@@ -1,0 +1,50 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/fonts/KiriFont.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://MainMenuButton.gd" type="Script" id=2]
+[ext_resource path="res://assets/fonts/Sniglet-Regular.ttf" type="DynamicFontData" id=3]
+
+[sub_resource type="DynamicFont" id=1]
+size = 80
+outline_size = 3
+outline_color = Color( 0.0431373, 0.890196, 0.0392157, 1 )
+extra_spacing_top = 20
+font_data = ExtResource( 1 )
+
+[sub_resource type="DynamicFont" id=2]
+size = 30
+font_data = ExtResource( 3 )
+
+[node name="YouWin" type="Control"]
+margin_right = 40.0
+margin_bottom = 40.0
+rect_pivot_offset = Vector2( -272, 200 )
+
+[node name="ColorRect" type="ColorRect" parent="."]
+anchor_right = 1.0
+anchor_bottom = 1.0
+margin_right = 984.0
+margin_bottom = 560.0
+
+[node name="Game Over Label" type="Label" parent="."]
+margin_top = 55.0
+margin_right = 1024.0
+margin_bottom = 195.0
+custom_colors/font_color = Color( 0.0509804, 0.92549, 0.105882, 1 )
+custom_fonts/font = SubResource( 1 )
+text = "You Win!"
+align = 1
+valign = 1
+
+[node name="MainMenuButton" type="Button" parent="."]
+margin_left = 328.0
+margin_top = 272.0
+margin_right = 697.0
+margin_bottom = 397.0
+custom_colors/font_color = Color( 0.145098, 0.0588235, 0.92549, 1 )
+custom_fonts/font = SubResource( 2 )
+text = "Main menu"
+flat = true
+script = ExtResource( 2 )
+
+[connection signal="pressed" from="MainMenuButton" to="MainMenuButton" method="_on_MainMenuButton_pressed"]
