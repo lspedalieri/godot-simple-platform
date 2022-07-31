@@ -90,17 +90,6 @@ collision_mask = 49
 format = 1
 tile_data = PoolIntArray( -1179624, 4, 0, -1179623, 2, 0, -1179622, 2, 0, -1179621, 5, 0, -983011, 4, 0, -983010, 2, 0, -983009, 2, 0, -983008, 5, 0, -786408, 4, 0, -786407, 2, 0, -786406, 2, 0, -786405, 5, 0, -589795, 4, 0, -589794, 2, 0, -589793, 2, 0, -589792, 5, 0, -393192, 4, 0, -393191, 2, 0, -393190, 2, 0, -393189, 5, 0, -196579, 4, 0, -196578, 2, 0, -196577, 2, 0, -196576, 5, 0, -65512, 4, 0, -65511, 2, 0, -65510, 2, 0, -65509, 5, 0, 0, -1610612735, 0, 65536, -1610612734, 0, 65553, 4, 0, 65554, 2, 0, 65555, 2, 0, 65556, 2, 0, 65557, 5, 0, 65565, 4, 0, 65566, 2, 0, 65567, 2, 0, 65568, 5, 0, 131072, -1610612734, 0, 196608, -1610612734, 0, 196620, 4, 0, 196621, 2, 0, 196622, 2, 0, 196623, 5, 0, 196642, 4, 0, 196643, 2, 0, 196644, 2, 0, 196645, 5, 0, 262144, -1610612734, 0, 327680, -1610612734, 0, 393216, 0, 0, 393217, 2, 0, 393218, 2, 0, 393219, 2, 0, 393220, 2, 0, 393221, 2, 0, 393222, 2, 0, 393223, 2, 0, 393224, 2, 0, 393225, 2, 0, 393226, 2, 0, 393227, 2, 0, 393228, 2, 0, 393229, 2, 0, 393230, 2, 0, 393231, 2, 0, 393232, 2, 0, 393233, 2, 0, 393234, 2, 0, 393235, 2, 0, 393236, 2, 0, 393237, 2, 0, 393245, 2, 0, 393246, 2, 0, 393247, 2, 0, 393248, 2, 0, 393249, 2, 0, 393250, 2, 0, 393251, 2, 0, 393252, 2, 0, 393253, 2, 0, 393254, 2, 0, 393255, 2, 0, 393256, 2, 0, 393257, 3, 0, 458752, -1610612736, 0, 458753, 0, 0, 458754, 0, 0, 458755, 0, 0, 458756, 0, 0, 458757, 0, 0, 458758, 0, 0, 458759, 0, 0, 458760, 0, 0, 458761, 0, 0, 458762, 0, 0, 458763, 0, 0, 458764, 0, 0, 458765, 0, 0, 458766, 0, 0, 458767, 0, 0, 458768, 0, 0, 458769, 0, 0, 458770, 0, 0, 458771, 0, 0, 458772, 0, 0, 458773, 0, 0, 458781, 0, 0, 458782, 0, 0, 458783, 0, 0, 458784, 0, 0, 458785, 0, 0, 458786, 0, 0, 458787, 0, 0, 458788, 0, 0, 458789, 0, 0, 458790, 0, 0, 458791, 0, 0, 458792, 0, 0, 458793, 0, 0 )
 
-[node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 416, 320 )
-
-[node name="Camera2D" type="Camera2D" parent="Player"]
-current = true
-limit_left = -1000
-limit_top = -3000
-limit_bottom = 600
-drag_margin_h_enabled = true
-drag_margin_v_enabled = true
-
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="Purple Sky" type="ParallaxLayer" parent="ParallaxBackground"]
@@ -239,6 +228,21 @@ detects_cliffs = false
 [node name="enemy2" parent="enemies" instance=ExtResource( 10 )]
 position = Vector2( 880, 176 )
 direction = 1
+
+[node name="enemy3" parent="enemies" instance=ExtResource( 10 )]
+position = Vector2( 288, 368 )
+direction = 1
+
+[node name="Player" parent="." instance=ExtResource( 2 )]
+position = Vector2( 416, 320 )
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+current = true
+limit_left = -1000
+limit_top = -3000
+limit_bottom = 600
+drag_margin_h_enabled = true
+drag_margin_v_enabled = true
 
 [connection signal="body_entered" from="Fallzone" to="Player" method="_on_Fallzone_body_entered"]
 [connection signal="coin_collected" from="Coins/Coin" to="HUD" method="_on_Coin_coin_collected"]
