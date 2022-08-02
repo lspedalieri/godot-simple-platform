@@ -1,44 +1,72 @@
 extends KinematicBody2D
 
+enum States {AIR = 1, FLOOR = 2, LADDER = 3, WALL = 4}
+var state = States.AIR
 var velocity = Vector2(0,0)
 var coins = 0
 
-const SPEED = 380
+const SPEED = 350
+const RUNSPEED = 600
 const JUMPFORCE = -1000
 const GRAVITY = 30
 const BOUNCEFACTOR = 0.7
 
 func _physics_process(delta):
+	print(velocity.x)
+	match state:
+		States.AIR:
+			if is_on_floor():
+				state = States.FLOOR
+				continue
+			$Sprite.play("air")
+			if Input.is_action_pressed("right_keys"):
+				velocity.x =  lerp(velocity.x, SPEED, 0.1) if velocity.x < SPEED else lerp(velocity.x, SPEED, 0.03)
+				$Sprite.flip_h = false
+			elif Input.is_action_pressed("left_keys"):
+				velocity.x = lerp(velocity.x, -SPEED, 0.1) if velocity.x < SPEED else lerp(velocity.x, -SPEED, 0.03)
+				$Sprite.flip_h = true
+			else:
+				velocity.x = lerp(velocity.x, 0, 0.2)
+			move_and_fall()
+		States.FLOOR:
+			if not is_on_floor():
+				state = States.AIR
+			if Input.is_action_pressed("right_keys"):
+				if Input.is_action_pressed("run_keys"):
+					velocity.x = lerp(velocity.x, RUNSPEED, 0.1)
+					$Sprite.set_speed_scale(1.8)
+				else:
+					velocity.x = lerp(velocity.x, SPEED, 0.1)
+					$Sprite.set_speed_scale(1.0)
+				$Sprite.flip_h = false
+				$Sprite.play("walk")
+			elif Input.is_action_pressed("left_keys"):
+				if Input.is_action_pressed("run_keys"):
+					velocity.x = lerp(velocity.x, -RUNSPEED, 0.1)
+					$Sprite.set_speed_scale(1.8)
+				else:
+					velocity.x = lerp(velocity.x, -SPEED, 0.1)
+					$Sprite.set_speed_scale(1.0)
+				$Sprite.flip_h = true
+				$Sprite.play("walk")
+			else:
+				$Sprite.play("idle")
+				velocity.x = lerp(velocity.x, 0, 0.2)
+				
+			if Input.is_action_just_pressed("jump_keys"):
+				velocity.y = JUMPFORCE
+				$SoundJump.play()
+				state = States.AIR
+			move_and_fall()
 
-	if Input.is_action_pressed("left_keys"):
-		velocity.x = -SPEED
-		$Sprite.flip_h = true
-		$Sprite.play("walk")
-	elif Input.is_action_pressed("right_keys"):
-		velocity.x =  SPEED
-		$Sprite.flip_h = false
-		$Sprite.play("walk")
-	else:
-		$Sprite.play("idle")
+	if coins == 9:
+		win()
 
-	if not is_on_floor():
-		$Sprite.play("air")
-			
+func move_and_fall():
 	velocity.y += GRAVITY
-	
-	if Input.is_action_just_pressed("jump_keys") and is_on_floor():
-		velocity.y = JUMPFORCE
-		$SoundJump.play()
-		
-
 	#returning velocity frame by frame, we stop acceleration after a vertical collision
 	#the second parameter fix the jump, setting where is the ceiling
 	velocity = move_and_slide(velocity, Vector2.UP)
-	
-	velocity.x = lerp(velocity.x, 0, 0.2)
-	
-	if coins == 9:
-		win()
 
 
 func _on_Fallzone_body_entered(body):
