@@ -6,6 +6,7 @@ var velocity = Vector2(0,0)
 var coins = 0
 var direction = 1
 var last_jump_direction = 0
+var on_ladder := false
 
 const SPEED = 350
 const RUNSPEED = 600
@@ -18,15 +19,18 @@ const SLOW_FALL_SPEED = 200
 const WALL_JUMP_SPEED_H = 450
 
 func _physics_process(delta):
-	print(is_near_wall())
+	#print(on_ladder)
 	match state:
 		States.AIR:
-			if is_on_floor():
+			if is_on_floor() and velocity.y == 0:
 				last_jump_direction = 0
 				state = States.FLOOR
 				continue
 			elif is_near_wall():
 				state = States.WALL
+				continue
+			elif should_climb_ladder():
+				state = States.LADDER
 				continue
 			$Sprite.play("air")
 			if Input.is_action_pressed("right_keys"):
@@ -44,6 +48,10 @@ func _physics_process(delta):
 		States.FLOOR:
 			if not is_on_floor():
 				state = States.AIR
+				continue
+			elif should_climb_ladder():
+				state = States.LADDER
+				continue
 			if Input.is_action_pressed("right_keys"):
 				if Input.is_action_pressed("run_keys"):
 					velocity.x = lerp(velocity.x, RUNSPEED, 0.1)
@@ -89,16 +97,54 @@ func _physics_process(delta):
 				$SoundJump.play()
 				state = States.AIR
 			move_and_fall(true)
+		States.LADDER:
+			if not on_ladder:
+				state = States.AIR
+				continue
+			elif is_on_floor() and Input.is_action_pressed("down_keys") and velocity.y == 0:
+				state = States.FLOOR
+				Input.action_release("down_keys")
+				Input.action_release("up_keys")
+				continue
+			elif Input.is_action_just_pressed("jump_keys"):
+				Input.action_release("down_keys")
+				Input.action_release("up_keys")
+				velocity.y = JUMPFORCE * 0.7
+				state = States.AIR
+				continue
+			if Input.is_action_pressed("down_keys") or Input.is_action_pressed("up_keys") or Input.is_action_pressed("left_keys") or Input.is_action_pressed("right_keys"):
+				$Sprite.play("climb")
+			else:
+				$Sprite.stop()
+			if Input.is_action_pressed("up_keys"):
+				velocity.y = -SPEED
+			elif Input.is_action_pressed("down_keys"):
+				velocity.y = SPEED				
+			else:
+				velocity.y = lerp(velocity.y, 0, 0.3)
+
+			if Input.is_action_pressed("left_keys"):
+				velocity.x = -SPEED/6
+			elif Input.is_action_pressed("right_keys"):
+				velocity.x = SPEED/6
+			else:
+				velocity.x = lerp(velocity.x, 0, 0.3)				
 			
-	if coins == 9:
-		win()
+			velocity = move_and_slide(velocity, Vector2.UP)
+
+
+func should_climb_ladder() -> bool:
+	if on_ladder and (Input.is_action_pressed("down_keys") or Input.is_action_pressed("up_keys")):
+		return true
+	else:
+		return false
 
 func set_direction():
 	direction = 1 if not $Sprite.flip_h else -1
 	$Wallchecker.rotation_degrees = -90 * direction
 
 func is_near_wall():
-	return $Wallchecker.is_colliding()
+	return $Wallchecker.is_colliding() and not $Wallchecker.get_collider().is_in_group("one_way")
 
 func fire():
 	if Input.is_action_just_pressed("fire") and not is_near_wall():
@@ -147,3 +193,11 @@ func die():
 	
 func win():
 	get_tree().change_scene("res://YouWin.tscn")
+
+
+func _on_Ladderchecker_body_entered(body):
+	on_ladder = true
+
+
+func _on_Ladderchecker_body_exited(body):
+	on_ladder = false
