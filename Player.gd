@@ -4,6 +4,8 @@ enum States {AIR = 1, FLOOR = 2, LADDER = 3, WALL = 4}
 var state = States.AIR
 var velocity = Vector2(0,0)
 var coins = 0
+var direction = 1
+var last_jump_direction = 0
 
 const SPEED = 350
 const RUNSPEED = 600
@@ -11,15 +13,20 @@ const JUMPFORCE = -1000
 const GRAVITY = 30
 const BOUNCEFACTOR = 0.7
 const FIREBALL = preload("res://Fireball.tscn")
-const FIREBALL_OFFSET = 25
+const FIREBALL_OFFSET = 30
+const SLOW_FALL_SPEED = 200
+const WALL_JUMP_SPEED_H = 450
 
 func _physics_process(delta):
-	print(velocity.x)
+	print(is_near_wall())
 	match state:
-		
 		States.AIR:
 			if is_on_floor():
+				last_jump_direction = 0
 				state = States.FLOOR
+				continue
+			elif is_near_wall():
+				state = States.WALL
 				continue
 			$Sprite.play("air")
 			if Input.is_action_pressed("right_keys"):
@@ -30,7 +37,8 @@ func _physics_process(delta):
 				$Sprite.flip_h = true
 			else:
 				velocity.x = lerp(velocity.x, 0, 0.2)
-			move_and_fall()
+			set_direction()
+			move_and_fall(false)
 			fire()
 			
 		States.FLOOR:
@@ -62,14 +70,38 @@ func _physics_process(delta):
 				velocity.y = JUMPFORCE
 				$SoundJump.play()
 				state = States.AIR
-			move_and_fall()
+			set_direction()
+			move_and_fall(false)
 			fire()
+		States.WALL:
+			if is_on_floor():
+				last_jump_direction = 0
+				state = States.FLOOR
+				continue
+			elif not is_near_wall():
+				state = States.AIR
+				continue
+			$Sprite.play("wall")
+			if Input.is_action_just_pressed("jump_keys") and ((Input.is_action_pressed("left_keys") and direction == 1) or (Input.is_action_pressed("right_keys") and direction == -1)) and direction != last_jump_direction:
+				last_jump_direction = direction
+				velocity.x = WALL_JUMP_SPEED_H * -direction
+				velocity.y = JUMPFORCE * 0.7
+				$SoundJump.play()
+				state = States.AIR
+			move_and_fall(true)
 			
 	if coins == 9:
 		win()
 
+func set_direction():
+	direction = 1 if not $Sprite.flip_h else -1
+	$Wallchecker.rotation_degrees = -90 * direction
+
+func is_near_wall():
+	return $Wallchecker.is_colliding()
+
 func fire():
-	if Input.is_action_just_pressed("fire"):
+	if Input.is_action_just_pressed("fire") and not is_near_wall():
 		var direction = 1 if not $Sprite.flip_h else -1
 		var f = FIREBALL.instance()
 		f.direction = direction
@@ -77,8 +109,10 @@ func fire():
 		f.position.y = position.y
 		f.position.x = position.x + direction * FIREBALL_OFFSET
 
-func move_and_fall():
+func move_and_fall(slow_fall:bool):
 	velocity.y += GRAVITY
+	if slow_fall:
+		velocity.y = clamp(velocity.y, JUMPFORCE, SLOW_FALL_SPEED)
 	#returning velocity frame by frame, we stop acceleration after a vertical collision
 	#the second parameter fix the jump, setting where is the ceiling
 	velocity = move_and_slide(velocity, Vector2.UP)
