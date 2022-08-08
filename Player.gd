@@ -7,6 +7,7 @@ var coins = 0
 var direction = 1
 var last_jump_direction = 0
 var on_ladder := false
+var hurt := 0
 
 const SPEED = 350
 const RUNSPEED = 600
@@ -147,7 +148,7 @@ func is_near_wall():
 	return $Wallchecker.is_colliding() and not $Wallchecker.get_collider().is_in_group("one_way")
 
 func fire():
-	if Input.is_action_just_pressed("fire") and not is_near_wall():
+	if Input.is_action_just_pressed("fire") and not is_near_wall() and hurt == 0:
 		var direction = 1 if not $Sprite.flip_h else -1
 		var f = FIREBALL.instance()
 		f.direction = direction
@@ -177,7 +178,6 @@ func bounce():
 	
 func ouch(var enemyposx):
 	Global.lose_life()
-	set_modulate(Color(1,.3,.3,.3))
 	velocity.y = JUMPFORCE * BOUNCEFACTOR
 	if position.x < enemyposx:
 		velocity.x = -800
@@ -185,11 +185,20 @@ func ouch(var enemyposx):
 		velocity.x = 800
 	Input.action_release("left_keys")
 	Input.action_release("right_keys")
+	set_modulate(Color(10, 10, 10, 0.9))
+	set_collision_layer_bit(0, false)
+	hurt = 20
 	$Timer.start()
 
 
 func _on_Timer_timeout():
-	set_modulate(Color(1,1,1,1))
+	hurt -= 1
+	if hurt == 0:
+		$Timer.stop()
+		set_modulate(Color(1,1,1,1))
+		set_collision_layer_bit(0, true)
+	else:
+		set_modulate(Color(10, 10, 10, 0.9)) if hurt % 2 else set_modulate(Color(1,1,1,1))
 	#die()
 
 func die():

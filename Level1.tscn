@@ -267,18 +267,18 @@ position = Vector2( 624, -1344 )
 [node name="enemies" type="Node2D" parent="."]
 
 [node name="enemy" parent="enemies" instance=ExtResource( 10 )]
-position = Vector2( 832, 176 )
+position = Vector2( 768, 368 )
 
 [node name="enemy2" parent="enemies" instance=ExtResource( 10 )]
-position = Vector2( 928, 176 )
+position = Vector2( 880, 368 )
 direction = 1
 
 [node name="enemy3" parent="enemies" instance=ExtResource( 10 )]
-position = Vector2( 992, 176 )
+position = Vector2( 992, 368 )
 direction = 1
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
-position = Vector2( 656, 320 )
+position = Vector2( 672, 320 )
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 current = true
