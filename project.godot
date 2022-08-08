@@ -14,6 +14,10 @@ config/name="simple platform again"
 run/main_scene="res://TitleMenu.tscn"
 config/icon="res://icon.png"
 
+[autoload]
+
+Global="*res://Global.gd"
+
 [display]
 
 window/size/resizable=false

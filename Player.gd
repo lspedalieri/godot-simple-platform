@@ -165,7 +165,9 @@ func move_and_fall(slow_fall:bool):
 
 
 func _on_Fallzone_body_entered(body):
-	die()
+	Global.lose_life()
+	if Global.lives >= 1:
+		get_tree().reload_current_scene()
 
 func add_coin():
 	coins += 1
@@ -174,6 +176,7 @@ func bounce():
 	velocity.y = JUMPFORCE * BOUNCEFACTOR
 	
 func ouch(var enemyposx):
+	Global.lose_life()
 	set_modulate(Color(1,.3,.3,.3))
 	velocity.y = JUMPFORCE * BOUNCEFACTOR
 	if position.x < enemyposx:
@@ -186,7 +189,8 @@ func ouch(var enemyposx):
 
 
 func _on_Timer_timeout():
-	die()
+	set_modulate(Color(1,1,1,1))
+	#die()
 
 func die():
 	get_tree().change_scene("res://gameover.tscn")

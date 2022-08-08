@@ -245,6 +245,7 @@ text = "PLAY!"
 flat = true
 
 [node name="TitleScreenMusic" type="AudioStreamPlayer2D" parent="."]
+position = Vector2( 506, 310 )
 stream = ExtResource( 10 )
 autoplay = true
 
